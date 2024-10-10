@@ -1,9 +1,9 @@
-
-// Scenario: Login com Credenciais Válidas
+// Scenario: Login com Credenciais Inválidas
 // Given que eu estou na tela de login do Keycloak
-// When eu insiro um "Username or email" válido e uma "Password" válida
+// When eu insiro um "Username or email" válido e uma "Password" inválida
 // And eu clico no botão "Sign in"
-// Then eu sou autenticado com sucesso e redirecionado para a página principal de "https://hemera.oke.luby.me/"
+// Then eu vejo uma mensagem de erro informando que as credenciais estão incorretas
+
 
 describe('Login', () => {
   beforeEach(() => {
