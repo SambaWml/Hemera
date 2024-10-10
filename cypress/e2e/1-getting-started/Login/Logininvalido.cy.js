@@ -16,7 +16,7 @@ describe('Login', () => {
       cy.get('#password').type('LbLuby66**');
       cy.get('#kc-login').click();
 
-      cy.contains('Invalid username or password.').should('be.visible'); // Verifica se o nome aparece
+      cy.contains('Invalid username or password.').should('be.visible'); // Verifica se o erro aparece
       cy.screenshot('LoginInvalido'); // Captura a tela após o login
   });
 });
