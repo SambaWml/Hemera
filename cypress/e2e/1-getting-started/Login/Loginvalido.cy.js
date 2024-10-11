@@ -10,7 +10,6 @@
 
 describe('Login', () => {
     beforeEach(() => {
-        cy.visit('hemera.oke.luby.me'); // Acesse a página de login
     });
 
     it('Deve realizar login com credenciais válidas', () => {
