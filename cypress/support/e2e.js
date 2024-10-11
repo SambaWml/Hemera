@@ -1,6 +1,6 @@
 
 // Import commands.js using ES2015 syntax:
 import './redirecionamento'
-import './Loginvalido'
+import './cadastroNC'
 
 
