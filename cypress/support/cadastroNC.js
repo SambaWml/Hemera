@@ -45,14 +45,19 @@ Cyprees.Commands.add('visualizarTelaDeCadastroNC', () => {
 
 });
 
-Cyprees.Commands.add('preencherCabeçalho', () => {
-      const numeroNC = numerosncExtenso(numero);
-
+Cyprees.Commands.add('preencherCabecalho', () => {
+      const numeroNC = numerosncExtenso(numero);     
       let investidor = "Anderson"; //nome figurativo
       let emissor = "Lucas"; //nome figurativo
       let dataEmissão = '03/11/2024'; //alterar a data
       let dataVencimento = '03/01/2024'; //alterar a data
-      let serieNc = '3546';
+      let serieNc = '3546'; // Alterar conforme os testes
+      let descricaoNC = 'Primeira nota NC';
+      let valorTotal = '500.000';  //olhar o faker
+      let valorUnitario = '50.000';
+      let quantidade = '';
+      let jurosPre = '10%';
+      let jurosPos = '15%';
 
       //Preencher investidor
       cy.get('ID ou Contains').click();
@@ -68,25 +73,21 @@ Cyprees.Commands.add('preencherCabeçalho', () => {
         .contains(emissor) //verificar se vai ser o contains ou id
         .click();
 
-      //Preencher Data de Emissão
+      //Preencher Data de Emissão * talvez seja um calendario
       cy.get('id ou contains')
-        .click()
         .type(dataEmissão)
 
-      //Preencher data de Vencimento
+      //Preencher data de Vencimento * talvez seja um calendario
       cy.get('id ou contains')
-        .click()
         .type(dataVencimento)
 
       //Preencher número da NC
       cy.get('id ou contains')
-        .click()
         .type(numeroNC)
 
       //Preencher série da NC
       cy.get('id ou contains')
-      .click()
-      .type(serieNc)
+        .type(serieNc)
 
       //Escolher Modelo NC
       cy.get('ID ou Contains').click();
@@ -94,13 +95,48 @@ Cyprees.Commands.add('preencherCabeçalho', () => {
         .contains('nome do modelo') //verificar se vai ser o contains ou id
         .click();
 
+      //Preencher a Descrição
+      cy.get('ID ou Contains')
+        .type(descricaoNC);
 
+      //Preencher valor total da nota
+      cy.get ('ID ou Contains')
+        .type(valorTotal);
 
+      //Preencher valor untário
+      cy.get('id ou contains')
+        .type(valorUnitario);
 
-
-
-
+      //Preencher quantidade
+      cy.get('id ou contains')
+        .type(quantidade);
         
+      //Preencher pré-fixado
+      cy.get('id ou contains')
+        .type(jurosPre);
+
+      //Preencher pós-fixado
+      cy.get('id ou contains')
+        .type(jurosPos);
+
+      //print dos dados preenchidos
+      cy.screenshot('cabeçalhoPreenchido')
+
+      //Avançar para próxima tela
+      cy.get('id ou contains')
+        .click()
+
+      //Validar se está na aba de Obrigações
+      cy.contains('Investidor externo').should(be.visible);
+      cy.screenshot('Avanço para aba obrigações')
+
+
+
+
+
+
+
+
 
 
 });
