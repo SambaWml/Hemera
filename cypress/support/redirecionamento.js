@@ -9,7 +9,7 @@
 // Then eu sou redirecionado para a tela de login do Keycloak
 
 Cypress.Commands.add('verificaçãoeredirecionamento', () => {
-    cy.visit('https://hemera.oke.luby.me/'); // Substitua pelo URL desejado
+    cy.visit('https://hemera.oke.luby.me/'); //  URL 
     cy.get('button') // Ajuste o seletor se necessário
       .contains('Fazer login com Keycloak')
       .should('be.visible');

@@ -1,3 +1,5 @@
+import 'cypress-file-upload';
+
 function numeroPorExtenso(numero) {
   const numerosncExtenso = [
     'Primeira NC',
@@ -18,13 +20,11 @@ function numeroPorExtenso(numero) {
 }
 
 
-
-
 Cypress.Commands.add('login', () => { //Criar parametro para user e senha colocar dentro () antes de =>
     let userName = 'wesley.leocadio@gmail.com.br';
     let password = 'LubyLuby66**';
 
-    cy.visit('https://hemera.oke.luby.me/'); // Substitua pelo URL desejado  
+    cy.visit('https://hemera.oke.luby.me/'); // URL 
     cy.get('button') // Ajuste o seletor se necessário
       .contains('Fazer login com Keycloak')
       .should('be.visible');
@@ -47,7 +47,7 @@ Cyprees.Commands.add('visualizarTelaDeCadastroNC', () => {
 
 Cyprees.Commands.add('preencherCabecalho', () => {
       const numeroNC = numerosncExtenso(numero);     
-      let investidor = "Anderson"; //nome figurativo
+      let investidor = "Lucas"; //nome figurativo
       let emissor = "Lucas"; //nome figurativo
       let dataEmissão = '03/11/2024'; //alterar a data
       let dataVencimento = '03/01/2024'; //alterar a data
@@ -63,7 +63,7 @@ Cyprees.Commands.add('preencherCabecalho', () => {
       cy.get('ID ou Contains').click();
       cy.get('id ou contains')
         .type(investidor)
-        .contains(investidor) //verificar se vai ser o contains ou id
+        .contains(investidor) //verificar se vai ser o contains ou id 
         .click();
 
       //Preencher Emissor
@@ -91,8 +91,8 @@ Cyprees.Commands.add('preencherCabecalho', () => {
 
       //Escolher Modelo NC
       cy.get('ID ou Contains').click();
-      cy.get('id ou contains')
-        .contains('nome do modelo') //verificar se vai ser o contains ou id
+      cy.get('id ou contains')  //verificar se vai ser o contains ou id * talvez não tenha esse campo
+        .contains('nome do modelo') 
         .click();
 
       //Preencher a Descrição
@@ -128,15 +128,39 @@ Cyprees.Commands.add('preencherCabecalho', () => {
 
       //Validar se está na aba de Obrigações
       cy.contains('Investidor externo').should(be.visible);
-      cy.screenshot('Avanço para aba obrigações')
+      cy.screenshot('Avanço para aba obrigações');
+
+});
+
+Cyprees.Commands.add('preencherObrigacoes', () => {
+
+      let taxa01 = "15%";
+      let taxa02 = "20%";
+      let taxa03 = "30%";
 
 
+      cy.contains('Resgate Antecipado:').should(be.visible); // Validar se está na tela correta
+      cy.contains('Do atraso no pagamento e encargos moratórios:').should(be.visible); // Validar se está na tela correta
+      cy.screenshot('telaObrigações'); // Print da tela
+      cy.get('id') // Clicar no CheckBox "A mercado, com Direito de Preferência e Direito de Equiparação de Oferta por parte da Emissora.""
+        .click();
 
+      cy.get('') // Clicar no CheckBox "Mediante o pagamento dos juros incorridos no respectivo período."
+        .click();
 
+      cy.type(taxa01); //Preencher os campos da taxas
 
+      cy.type(taxa02); //Preencher os campos da taxas
 
+      cy.type(taxa03); //Preencher os campos da taxas 
 
+      cy.screenshot('obrigaçõesPreenchida'), // print da tela com tudo certo
 
+      cy.get("id") // Navegar pra proxima tela
+        .click();
+      
+      cy.contains('Upload do Fluxo') // Confirmar que está na tela Fluxo de Pagamento
+        .should('be.visible');
 
 
 });
