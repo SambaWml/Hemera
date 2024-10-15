@@ -164,3 +164,35 @@ Cyprees.Commands.add('preencherObrigacoes', () => {
 
 
 });
+
+Cyprees.Commands.add('enviarPagamentoInvalido', () => {
+  const fluxoPagamentoinvalido = 'parcelas_amortizacao.xlsx';
+
+
+    // erro ao enviar o arquivo
+  cy.get('id')
+    .attachFile(fluxoPagamentoinvalido);
+
+  cy.contains('mensagem de erro').should('be.visible');
+
+  cy.screenshot('Erro ao enviar no formato errado');
+
+});
+
+
+Cyprees.Commands.add('enviarPagamentovalido', () => {
+    const fluxoPagamento = 'parcelas_amortizacao.csv';
+
+
+    // sucesso ao enviar o arquivo
+    cy.get('id')
+      .attachFile(fluxoPagamento);
+
+    cy.contains('mensagem de sucesso').should('be.visible');
+
+    cy.screenshot('Sucesso ao enviar arquivo');
+
+    cy.get('ID').click();
+});
+
+// Validar Manual o Download e Exclusão do arquivo 
