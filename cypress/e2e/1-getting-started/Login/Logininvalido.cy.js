@@ -11,6 +11,7 @@ describe('Login', () => {
   });
 
   it('Deve realizar login com credenciais válidas', () => {
+      
       cy.verificaçãoeredirecionamento();
       cy.get('#username').type('.leocadio@luby.com.br');
       cy.get('#password').type('LbLuby66**');

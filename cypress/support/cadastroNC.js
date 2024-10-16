@@ -19,7 +19,6 @@ function numeroPorExtenso(numero) {
   return numerosncExtenso[numero - 1] || `${numero}ª NC`;
 }
 
-
 Cypress.Commands.add('login', () => { //Criar parametro para user e senha colocar dentro () antes de =>
     let userName = 'wesley.leocadio@gmail.com.br';
     let password = 'LubyLuby66**';
@@ -33,19 +32,19 @@ Cypress.Commands.add('login', () => { //Criar parametro para user e senha coloca
     cy.get('#password').type(password);
     cy.get('#kc-login').click();
 
-    cy.contains('Nome: Wesley Leocadio').should('be.visible'); // Verifica se o nome aparece
+    cy.contains('Nome: Wesley Leocadio').should('be.visible'); // Verifica se o nome aparece     //Remover
     cy.screenshot('LoginValido'); // Captura a tela após o login    
     
 });
 
-Cyprees.Commands.add('visualizarTelaDeCadastroNC', () => {
+Cypress.Commands.add('visualizarTelaDeCadastroNC', () => {
 
       cy.get('ID OU CONTAINS').click(); //Isso vai fazer com que seja rediracionado para tela cadastro de NC 
       cy.contains('Dados da NC').should('be.visible'); // Verifica se estamos na tela correta
 
 });
 
-Cyprees.Commands.add('preencherCabecalho', () => {
+Cypress.Commands.add('preencherCabecalho', () => {
       const numeroNC = numerosncExtenso(numero);     
       let investidor = "Lucas"; //nome figurativo
       let emissor = "Lucas"; //nome figurativo
@@ -132,7 +131,7 @@ Cyprees.Commands.add('preencherCabecalho', () => {
 
 });
 
-Cyprees.Commands.add('preencherObrigacoes', () => {
+Cypress.Commands.add('preencherObrigacoes', () => {
 
       let taxa01 = "15%";
       let taxa02 = "20%";
@@ -148,11 +147,11 @@ Cyprees.Commands.add('preencherObrigacoes', () => {
       cy.get('') // Clicar no CheckBox "Mediante o pagamento dos juros incorridos no respectivo período."
         .click();
 
-      cy.type(taxa01); //Preencher os campos da taxas
+      cy.get('ID').type(taxa01); //Preencher os campos da taxas
 
-      cy.type(taxa02); //Preencher os campos da taxas
+      cy.get('ID').type(taxa02); //Preencher os campos da taxas
 
-      cy.type(taxa03); //Preencher os campos da taxas 
+      cy.get('ID').type(taxa03); //Preencher os campos da taxas 
 
       cy.screenshot('obrigaçõesPreenchida'), // print da tela com tudo certo
 
@@ -165,7 +164,7 @@ Cyprees.Commands.add('preencherObrigacoes', () => {
 
 });
 
-Cyprees.Commands.add('enviarPagamentoInvalido', () => {
+Cypress.Commands.add('enviarPagamentoInvalido', () => {
   const fluxoPagamentoinvalido = 'parcelas_amortizacao.xlsx';
 
 
@@ -180,7 +179,7 @@ Cyprees.Commands.add('enviarPagamentoInvalido', () => {
 });
 
 
-Cyprees.Commands.add('enviarPagamentovalido', () => {
+Cypress.Commands.add('enviarPagamentovalido', () => {
     const fluxoPagamento = 'parcelas_amortizacao.csv';
 
 
@@ -192,7 +191,39 @@ Cyprees.Commands.add('enviarPagamentovalido', () => {
 
     cy.screenshot('Sucesso ao enviar arquivo');
 
-    cy.get('ID').click();
+    cy.contains('Fidejussórias').click(); //Clicar em Fidejussórias
+
+    cy.contains('Avalista').should('be.visible');
+    cy.contains('Cônjuge Anuente').should('be.visible');
+
+    cy.screenshot('abaFidejussórias')
 });
 
 // Validar Manual o Download e Exclusão do arquivo 
+
+Cypress.Commands.add('adicionarAvalistaeconjugeAnuente', () => {
+    let avalista = "Nome ou RG";
+
+
+    //Adicionar Avalista
+    cy.get('id')
+      .click(); //Clicar no botão adicionar "AVALISTA"
+
+    cy.contains('Adicionar Cônjuge Anuente')
+      .should('be.visible');
+
+    cy.get('id') //Buscar avalista
+      .type(avalista);
+    
+    cy.get('id')
+      .click(); //clicar no checkbox do avalista
+
+    cy.get('Id')
+      .click();  //Adicionar o avalista
+    
+    cy.contains(avalista) // Validar se o avalista foi adicionado com sucesso
+      .should('be.visible');
+
+  
+})
+    // Validar se vai precisar para o cônjuge
