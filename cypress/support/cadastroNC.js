@@ -35,15 +35,7 @@ cy.contains('Você tem certeza de que deseja cancelar a emissão da Nota Comerci
 cy.get('id/contains')
   .click();
 
-
-
-
-
 })
-
-
-
-
 
 
 Cypress.Commands.add('login', () => { //Criar parametro para user e senha colocar dentro () antes de =>
