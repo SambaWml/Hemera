@@ -19,6 +19,33 @@ function numeroPorExtenso(numero) {
   return numerosncExtenso[numero - 1] || `${numero}ª NC`;
 }
 
+
+
+Cypress.Commands.add('cancelarEmissao', () => {
+
+
+cy.contains('Cancelar Emissão')
+  .should('be.visible');
+cy.get('id/contains')
+  .click();
+
+cy.contains('Você tem certeza de que deseja cancelar a emissão da Nota Comercial?')
+  .should('be.visible')
+
+cy.get('id/contains')
+  .click();
+
+
+
+
+
+})
+
+
+
+
+
+
 Cypress.Commands.add('login', () => { //Criar parametro para user e senha colocar dentro () antes de =>
     let userName = 'wesley.leocadio@gmail.com.br';
     let password = 'LubyLuby66**';
@@ -201,7 +228,7 @@ Cypress.Commands.add('enviarPagamentovalido', () => {
 
 // Validar Manual o Download e Exclusão do arquivo 
 
-Cypress.Commands.add('adicionarAvalistaeconjugeAnuente', () => {
+Cypress.Commands.add('adicionarAvalista', () => {
     let avalista = "Nome ou RG";
 
 
@@ -209,7 +236,7 @@ Cypress.Commands.add('adicionarAvalistaeconjugeAnuente', () => {
     cy.get('id')
       .click(); //Clicar no botão adicionar "AVALISTA"
 
-    cy.contains('Adicionar Cônjuge Anuente')
+    cy.contains('Adicionar Avalista')
       .should('be.visible');
 
     cy.get('id') //Buscar avalista
@@ -227,3 +254,42 @@ Cypress.Commands.add('adicionarAvalistaeconjugeAnuente', () => {
   
 })
     // Validar se vai precisar para o cônjuge
+
+    Cypress.Commands.add('adicionarConjuge', () => {
+      let conjuge = "Nome ou RG";
+  
+  
+      //Adicionar Avalista
+      cy.get('id')
+        .click(); //Clicar no botão adicionar "AVALISTA"
+  
+      cy.contains('Adicionar Cônjuge Anuente')
+        .should('be.visible');
+  
+      cy.get('id') //Buscar conjuge
+        .type(conjuge);
+      
+      cy.get('id')
+        .click(); //clicar no checkbox do conjuge
+  
+      cy.get('Id')
+        .click();  //Adicionar o conjuge
+      
+      cy.contains(conjuge) // Validar se o conjuge foi adicionado com sucesso
+        .should('be.visible');
+
+    })
+
+
+      Cypress.Commands.add('enviarAprovação', () => {
+
+
+        //CONCLUIR ENVIO 
+
+        cy.screenshot('garantiasconcluida')
+        cy.get('id/contains').click();
+        cy.screenshot('conclusãodoenvio')
+
+
+
+      })
