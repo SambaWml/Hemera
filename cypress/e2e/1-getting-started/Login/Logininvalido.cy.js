@@ -4,20 +4,22 @@
 // And eu clico no botão "Sign in"
 // Then eu vejo uma mensagem de erro informando que as credenciais estão incorretas
 
-
 describe('Login', () => {
 
   beforeEach(() => {
+      cy.verificaçãoeredirecionamento(); // Acessa a página inicial antes de cada teste
   });
 
-  it('Deve realizar login com credenciais válidas', () => {
-      
-      cy.verificaçãoeredirecionamento();
+  it('Deve exibir mensagem de erro com credenciais inválidas', () => {
+      // Preencher o nome de usuário válido e uma senha inválida
       cy.get('#username').type('.leocadio@luby.com.br');
-      cy.get('#password').type('LbLuby66**');
+      cy.get('#password').type('LbLuby66**'); // Senha inválida
       cy.get('#kc-login').click();
 
-      cy.contains('Invalid username or password.').should('be.visible'); // Verifica se o erro aparece
-      cy.screenshot('LoginInvalido'); // Captura a tela após o login
+      // Verificar se a mensagem de erro "Invalid username or password." aparece
+      cy.contains('Invalid username or password.').should('be.visible');
+
+      // Capturar screenshot da tela de erro
+      cy.screenshot('LoginInvalido');
   });
 });
