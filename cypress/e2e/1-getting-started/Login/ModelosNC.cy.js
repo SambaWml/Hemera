@@ -8,6 +8,7 @@ describe('Cadastro de NC', () => {
         cy.verificarDropdownStatus();
         cy.filtrarPorNome();
         cy.filtrarPorStatus();
+        //cy.excluirModelo();
 
 
 

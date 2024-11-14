@@ -1,25 +1,5 @@
 import 'cypress-file-upload';
 
-function numeroPorExtenso(numero) {
-  const numerosncExtenso = [
-    'Primeira NC',
-    'Segunda NC',
-    'Terceira NC',
-    'Quarta NC',
-    'Quinta NC',
-    'Sexta NC',
-    'Sétima NC',
-    'Oitava NC',
-    'Nona NC',
-    'Décima NC'
-
-  ];
-
-  // Retorna o correspondente por extenso ou uma string padrão se o número for maior que a lista
-  return numerosncExtenso[numero - 1] || `${numero}ª NC`;
-}
-
-
 
 Cypress.Commands.add('cancelarEmissao', () => {
 
@@ -51,25 +31,29 @@ Cypress.Commands.add('login', () => { //Criar parametro para user e senha coloca
     cy.get('#username').type(userName);
     cy.get('#password').type(password);
     cy.get('#kc-login').click();
-    cy.wait(4000);
+    cy.wait(2000);
     cy.screenshot('LoginValido'); // Captura a tela após o login    
     
 });
 
 Cypress.Commands.add('visualizarTelaDeCadastroNC', () => {
 
-      cy.get('ID OU CONTAINS').click(); //Isso vai fazer com que seja rediracionado para tela cadastro de NC 
-      cy.contains('Dados da NC').should('be.visible'); // Verifica se estamos na tela correta
+      cy.get('[href="/commercial-note/register"] > .truncate').click(); //Isso vai fazer com que seja rediracionado para tela cadastro de NC 
+      cy.contains('Cadastro NC').should('be.visible'); // Verifica se estamos na tela correta
+      cy.wait(2000);
+
 
 });
 
-Cypress.Commands.add('preencherCabecalho', () => {
-      const numeroNC = numerosncExtenso(numero);     
-      let investidor = "Lucas"; //nome figurativo
-      let emissor = "Lucas"; //nome figurativo
-      let dataEmissão = '03/11/2024'; //alterar a data
-      let dataVencimento = '03/01/2024'; //alterar a data
+Cypress.Commands.add('preencherCabecalho', () => {    
+      let investidor = "12.254.372/0001-23"; //cnpj figurativo
+      let emissor = "02.033.625/0001-85"; //cnpj figurativo
+      let dataEmissão = '14112024';
+      let dataEmissaoFormatada = dataEmissão.slice(4, 8) + '-' + dataEmissão.slice(2, 4) + '-' + dataEmissão.slice(0, 2);
+      let dataVencimento = '03012025'; //alterar a data
+      let dataVencimentoFormatada = dataVencimento.slice(4, 8) + '-' + dataVencimento.slice(2, 4) + '-' + dataVencimento.slice(0, 2);
       let serieNc = '3546'; // Alterar conforme os testes
+      let numeroNC = 'Primeira' // numero da nota
       let descricaoNC = 'Primeira nota NC';
       let valorTotal = '500.000';  //olhar o faker
       let valorUnitario = '50.000';
@@ -78,33 +62,26 @@ Cypress.Commands.add('preencherCabecalho', () => {
       let jurosPos = '15%';
 
       //Preencher investidor
-      cy.get('ID ou Contains').click();
-      cy.get('id ou contains')
+      cy.get('.mb-6 > :nth-child(3) > :nth-child(1) > .gap-2')
         .type(investidor)
-        .contains(investidor) //verificar se vai ser o contains ou id 
-        .click();
 
       //Preencher Emissor
-      cy.get('ID ou Contains').click();
-      cy.get('id ou contains')
-        .type(emissor)
-        .contains(emissor) //verificar se vai ser o contains ou id
-        .click();
+      cy.wait(4000)
+      cy.get('input[data-test="cnpjSearchIssuer-input"]').type(emissor, { force: true });
+        
 
       //Preencher Data de Emissão * talvez seja um calendario
-      cy.get('id ou contains')
-        .type(dataEmissão)
+      cy.get('[data-test="issueDate-input"]').type(dataEmissaoFormatada);
 
       //Preencher data de Vencimento * talvez seja um calendario
-      cy.get('id ou contains')
-        .type(dataVencimento)
+      cy.get('[data-test="expireDate-input"]').type(dataVencimentoFormatada);
 
       //Preencher número da NC
-      cy.get('id ou contains')
+      cy.get('.flex-1.flex-row > :nth-child(1) > .gap-2 > .relative > .absolute')
         .type(numeroNC)
 
       //Preencher série da NC
-      cy.get('id ou contains')
+      cy.get('.flex-1.flex-row > :nth-child(2) > .gap-2')
         .type(serieNc)
 
       //Escolher Modelo NC
@@ -113,40 +90,41 @@ Cypress.Commands.add('preencherCabecalho', () => {
         .contains('nome do modelo') 
         .click();
 
-      //Preencher a Descrição
-      cy.get('ID ou Contains')
-        .type(descricaoNC);
+//Preencher a Descrição
+//cy.get('ID ou Contains')
+ // .type(descricaoNC);
 
-      //Preencher valor total da nota
-      cy.get ('ID ou Contains')
-        .type(valorTotal);
+//Preencher valor total da nota
+//cy.get ('ID ou Contains')
+  //.type(valorTotal);
 
-      //Preencher valor untário
-      cy.get('id ou contains')
-        .type(valorUnitario);
+//Preencher valor untário
+//cy.get('id ou contains')
+  //.type(valorUnitario);
 
-      //Preencher quantidade
-      cy.get('id ou contains')
-        .type(quantidade);
-        
-      //Preencher pré-fixado
-      cy.get('id ou contains')
-        .type(jurosPre);
+//Preencher quantidade
+//cy.get('id ou contains')
+  //.type(quantidade);
+  
+//Preencher pré-fixado
+//cy.get('id ou contains')
+  //.type(jurosPre);
 
-      //Preencher pós-fixado
-      cy.get('id ou contains')
-        .type(jurosPos);
+//Preencher pós-fixado
+//cy.get('id ou contains')
+ // .type(jurosPos);
 
-      //print dos dados preenchidos
-      cy.screenshot('cabeçalhoPreenchido')
+//print dos dados preenchidos
+//cy.screenshot('cabeçalhoPreenchido')
 
-      //Avançar para próxima tela
-      cy.get('id ou contains')
-        .click()
+//Avançar para próxima tela
+//cy.get('id ou contains')
+ // .click()
 
-      //Validar se está na aba de Obrigações
-      cy.contains('Investidor externo').should(be.visible);
-      cy.screenshot('Avanço para aba obrigações');
+//Validar se está na aba de Obrigações
+//cy.contains('Investidor externo').should(be.visible);
+//cy.screenshot('Avanço para aba obrigações');
+      
 
 });
 

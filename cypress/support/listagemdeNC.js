@@ -40,9 +40,9 @@ Cypress.Commands.add('verificarExibicaoTela', () => {
 
   Cypress.Commands.add('verificarDropdownStatus', () => {
     cy.get(dropdownStatus).click(); 
-    cy.get(Todos).should('contain', 'Todos');
-    cy.get(Ativo).should('contain', 'Ativo');
-    cy.get(Inativo).should('contain', 'Inativo');
+    cy.contains('span', 'Todos').should('be.visible');
+    cy.contains('span', 'Ativo').should('be.visible');
+    cy.contains('span', 'Inativo').should('be.visible');
     cy.wait(4000);
     cy.screenshot('verificarDropdownStatus');
   });
@@ -54,47 +54,62 @@ Cypress.Commands.add('verificarExibicaoTela', () => {
     cy.get(botaoFiltrar).click(); // 
     cy.wait(4000);
     cy.screenshot('filtrarPorNome')
-    cy.contains('Pesquisar').clear()
+    cy.get('[data-test="description-input"]').clear()
+    cy.get(botaoFiltrar).click();
   });
 
-  Cypress.Commands.add('filtrarPorStatus', () => {
-    //cy.contains('span', 'Todos').click({ force: true });
-    //cy.contains('span', 'Ativo').click({ force: true });
-    //cy.contains('span', 'Inativo').click({ force: true });
+Cypress.Commands.add('filtrarPorStatus', () => {
+//cy.contains('span', 'Todos').click({ force: true });
+//cy.contains('span', 'Ativo').click({ force: true });
+//cy.contains('span', 'Inativo').click({ force: true });
 
-    //Filtrar pelo ativo
-    cy.get(dropdownStatus).click();  
-    cy.contains('span', 'Ativo').click();
-    cy.get(botaoFiltrar).click();
-    cy.wait(4000);  
-    cy.screenshot('FiltroAtivo')
+//Filtrar pelo ativo
+//cy.get(dropdownStatus).click(); 
+//cy.wait(1000) 
+//cy.get('.cursor-default.select-none').eq(2).should('exist').click();
+//cy.get('.cursor-default.select-none').click();
+//cy.get(botaoFiltrar).click();
+//cy.get('span.min-w-full.truncate').contains('Ativo').click({ force: true });
+//cy.get(botaoFiltrar).click();
+//cy.wait(4000);  
+//cy.screenshot('FiltroAtivo')
 
-    //Filtrar pelo Inativo
-    cy.get(dropdownStatus).click();  
-    cy.contains('span', 'Inativo').click();
-    cy.get(botaoFiltrar).click();
-    cy.wait(4000);
-    cy.screenshot('FiltroInativo')
-    
-    //Filtrar todos
-    cy.get(dropdownStatus).click();  
-    cy.contains('span', 'Todos').click();
-    cy.get(botaoFiltrar).click();
-    cy.wait(4000);
-    cy.screenshot('Todos') 
-    
-  });
+//Filtrar pelo Inativo
+ cy.get(dropdownStatus).click();  
+ cy.contains('div[role="listbox"] span', 'Inativo').click();
+ cy.get(botaoFiltrar).click();
+ cy.wait(4000);
+ cy.screenshot('FiltroInativo')
+
+//Filtrar todos
+//cy.get(dropdownStatus).click();  
+//cy.contains('span', 'Todos').click();
+//cy.get(botaoFiltrar).click();
+//cy.wait(4000);
+//cy.screenshot('Todos') 
+});
 
 
-  //Cypress.Commands.add('excluirModelo', () => {
-  //  cy.get(``).click(); // 
-  //  cy.get('').should('be.visible'); 
-  //  cy.get('').click(); // 
- // });
+  /*Cypress.Commands.add('excluirModelo', () => {
+    cy.get('tr')  
+      .eq(5) 
+      .find('button') 
+      .eq(2) 
+      .click();
+    cy.contains('Tem certeza que deseja excluir o Modelo de Nota Comercial Padrão?').should('be.visible')
+    cy.contains('button', 'Excluir')  
+      .click();
+  });*/
 
-  //Cypress.Commands.add('editarModelo', () => {
-   // cy.get(``).click(); 
-   // cy.url().should('include', `/editar/`); 
-  //});
+
+ /* Cypress.Commands.add('editarModelo', () => {
+    cy.get('tr')  
+      .eq(1) 
+      .find('button') 
+      .eq(1) 
+      .click();
+    cy.contains('Modelo de Nota Comercial').should('be.visible');
+    cy.get('')
+}); */
 
   

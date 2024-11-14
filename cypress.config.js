@@ -9,6 +9,7 @@ module.exports = {
 
 // cypress.config.js ou cypress.config.ts
 module.exports = {
+  projectId: 'w5u8bs',
   e2e: {
     baseUrl: 'http://localhost:3000', // ou a URL da sua aplicação
     viewportWidth: 1920,  // Definir a largura do viewport para 1920px
