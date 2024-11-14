@@ -39,19 +39,19 @@ cy.get('id/contains')
 
 
 Cypress.Commands.add('login', () => { //Criar parametro para user e senha colocar dentro () antes de =>
-    let userName = 'wesley.leocadio@gmail.com.br';
-    let password = 'LubyLuby66**';
+    let userName = 'lubyqa';
+    let password = '12345';
 
     cy.visit('https://hemera.oke.luby.me/'); // URL 
     cy.get('button') // Ajuste o seletor se necessário
       .contains('Fazer login com Keycloak')
       .should('be.visible');
+    cy.wait(4000);
     cy.contains('Fazer login com Keycloak').click()
     cy.get('#username').type(userName);
     cy.get('#password').type(password);
     cy.get('#kc-login').click();
-
-    cy.contains('Nome: Wesley Leocadio').should('be.visible'); // Verifica se o nome aparece     //Remover
+    cy.wait(4000);
     cy.screenshot('LoginValido'); // Captura a tela após o login    
     
 });

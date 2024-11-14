@@ -14,11 +14,12 @@ describe('Login', () => {
 
     it('Deve realizar login com credenciais válidas', () => {
         cy.verificaçãoeredirecionamento();
-        cy.get('#username').type('wesley.leocadio@luby.com.br');
-        cy.get('#password').type('LubyLuby66**');
+        cy.get('#username').type('lubyqa');
+        cy.get('#password').type('12345');
         cy.get('#kc-login').click();
 
-        cy.contains('Nome: Wesley Leocadio').should('be.visible'); // Verifica se o nome aparece
+        cy.get('#radix-\\:Rqfcq\\: > .text-gray-dark')
+          .should('be.visible'); // Verifica se o nome aparece
         cy.screenshot('LoginValido'); // Captura a tela após o login
     });
 });
