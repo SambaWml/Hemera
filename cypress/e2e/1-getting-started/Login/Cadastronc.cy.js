@@ -1,23 +1,25 @@
 describe('Cadastro de NC', () => {
 
     beforeEach(() => {
-        cy.verificaçãoeredirecionamento(); // Verifica a página inicial antes de cada teste
+        cy.verificaçãoERedirecionamento(); // Verifica a página inicial antes de cada teste
         cy.login(); // Realiza o login válido
     });
 
-    it('HEM-1: Cadastro de NC', () => {
+    it('Cadastro de NC', () => {
         // Acessar a tela de cadastro de NC
         cy.visualizarTelaDeCadastroNC(); 
 
         // Preencher o cabeçalho da NC
         cy.preencherCabecalho();
 
-        // As ações abaixo estão comentadas, caso queira ativá-las durante o fluxo de testes, basta remover o comentário:
+        // Preencher o cabeçalho da NC Externo
+        //cy.preencherCabecalhoExterno();
+
         // cy.cancelarEmissao(); // Caso queira testar a funcionalidade de cancelar emissão
         // cy.visualizarTelaDeCadastroNC(); // Retorna à tela de cadastro, se necessário após cancelar
 
         // Preencher a aba de Obrigações
-        // cy.preencherObrigacoes();
+         cy.preencherObrigacoes();
 
         // Testar envio de pagamento com arquivo inválido
         // cy.enviarPagamentoInvalido(); 

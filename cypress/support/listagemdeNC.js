@@ -66,6 +66,7 @@ Cypress.Commands.add('filtrarPorNome', () => {
     
     cy.get('[data-test="description-input"]').clear();
     cy.get(botaoFiltrar).click();
+    cy.screenshot('filtroLimpo')
 });
 
 // Filtrar Por Status
@@ -99,7 +100,7 @@ Cypress.Commands.add('filtrarPorStatus', () => {
 }); 
 */
 
-// Excluir Modelo
+// Excluir Modelo 
 Cypress.Commands.add('excluirModelo', () => {
     cy.get('tr').eq(5) // Seleciona a linha do modelo
       .find('button').eq(2) // Botão de excluir
@@ -107,6 +108,7 @@ Cypress.Commands.add('excluirModelo', () => {
     
     cy.contains('Tem certeza que deseja excluir o Modelo de Nota Comercial Padrão?').should('be.visible');
     cy.contains('button', 'Excluir').click();
+    cy.screenshot('excluindoModelo')
 });
 
 // Editar Modelo (parcialmente implementado)

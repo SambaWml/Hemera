@@ -7,7 +7,7 @@
 describe('Login', () => {
 
   beforeEach(() => {
-      cy.verificaçãoeredirecionamento(); // Acessa a página inicial antes de cada teste
+      cy.verificaçãoERedirecionamento(); // Acessa a página inicial antes de cada teste
   });
 
   it('Deve exibir mensagem de erro com credenciais inválidas', () => {

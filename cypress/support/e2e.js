@@ -3,4 +3,5 @@
 import './redirecionamento'
 import './cadastroNC'
 import './listagemdeNC'
+import './Cons.situaçãoNC'
 

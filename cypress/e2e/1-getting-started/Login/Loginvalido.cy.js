@@ -6,7 +6,7 @@
 
 describe('Login', () => {
   beforeEach(() => {
-      cy.verificaçãoeredirecionamento(); // Acessa a página inicial
+      cy.verificaçãoERedirecionamento(); // Acessa a página inicial
   });
 
   it('Deve realizar login com credenciais válidas', () => {

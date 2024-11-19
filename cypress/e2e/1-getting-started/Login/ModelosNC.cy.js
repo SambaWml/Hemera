@@ -1,7 +1,7 @@
 describe('Tela Modelos De NC', () => {
 
     beforeEach(() => {
-        cy.verificaçãoeredirecionamento();  
+        cy.verificaçãoERedirecionamento();  
         cy.login(); // Realiza login válido antes de cada teste
     });
 
