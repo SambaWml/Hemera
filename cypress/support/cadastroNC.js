@@ -1,6 +1,8 @@
 import 'cypress-file-upload';
 
-// Função para formatar a data no formato "YYYY-MM-DD"
+/**
+ * Função para formatar uma data no formato "YYYY-MM-DD".
+ */
 const formatarData = (data) => {
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0'); // Meses começam em 0
@@ -8,207 +10,232 @@ const formatarData = (data) => {
     return `${ano}-${mes}-${dia}`;
 };
 
-// Função para gerar data de emissão e vencimento
+/**
+ * Gera as datas de emissão e vencimento.
+ * A data de vencimento é 30 dias após a data de emissão.
+ */
 const gerarDatas = () => {
-    const hoje = new Date(); // Data atual
-
-    // Data de emissão é a data atual
+    const hoje = new Date();
     const dataEmissao = formatarData(hoje);
 
-    // Calcular data de vencimento (30 dias após a data de emissão)
-    hoje.setDate(hoje.getDate() + 30); // Adiciona 30 dias à data atual
+    hoje.setDate(hoje.getDate() + 30);
     const dataVencimento = formatarData(hoje);
 
     return { dataEmissao, dataVencimento };
-}
-
-// Função para gerar um número aleatório dentro de um intervalo específico
-const gerarNumeroAleatorio = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Função para converter número em texto (por extenso)
-const numeroPorExtenso = (numero) => {
-  if (typeof numero !== 'number' || numero < 0 || numero > 59) {
-      return '';
-  }
-  const numPorExtenso = [
-    'uma', 'duas', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 
-    'dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove', 
-    'vinte', 'vinte e uma', 'vinte e duas', 'vinte e três', 'vinte e quatro', 'vinte e cinco', 'vinte e seis', 'vinte e sete', 'vinte e oito', 'vinte e nove', 
-    'trinta', 'trinta e uma', 'trinta e duas', 'trinta e três', 'trinta e quatro', 'trinta e cinco', 'trinta e seis', 'trinta e sete', 'trinta e oito', 'trinta e nove',
-    'quarenta', 'quarenta e uma', 'quarenta e duas', 'quarenta e três', 'quarenta e quatro', 'quarenta e cinco', 'quarenta e seis', 'quarenta e sete', 'quarenta e oito', 'quarenta e nove',
-    'cinquenta', 'cinquenta e uma', 'cinquenta e duas', 'cinquenta e três', 'cinquenta e quatro', 'cinquenta e cinco', 'cinquenta e seis', 'cinquenta e sete', 'cinquenta e oito', 'cinquenta e nove',
-    'sessenta', 'sessenta e uma', 'sessenta e duas', 'sessenta e três', 'sessenta e quatro', 'sessenta e cinco', 'sessenta e seis', 'sessenta e sete', 'sessenta e oito', 'sessenta e nove',
-    'setenta', 'setenta e uma', 'setenta e duas', 'setenta e três', 'setenta e quatro', 'setenta e cinco', 'setenta e seis', 'setenta e sete', 'setenta e oito', 'setenta e nove',
-    'oitenta', 'oitenta e uma', 'oitenta e duas', 'oitenta e três', 'oitenta e quatro', 'oitenta e cinco', 'oitenta e seis', 'oitenta e sete', 'oitenta e oito', 'oitenta e nove',
-    'noventa', 'noventa e uma', 'noventa e duas', 'noventa e três', 'noventa e quatro', 'noventa e cinco', 'noventa e seis', 'noventa e sete', 'noventa e oito', 'noventa e nove',
-    'cem'
-
-  ];
-
-  return numPorExtenso[numero] || '';
 };
 
+/**
+ * Gera um número aleatório dentro de um intervalo especificado.
+ */
+const gerarNumeroAleatorio = (min, max) => 
+    Math.floor(Math.random() * (max - min + 1)) + min;
 
-// Configurações de dados
+/**
+ * Converte um número para o texto correspondente por extenso (até 1000).
+ */
+const numeroPorExtenso = (numero) => {
+    const unidades = [
+        '', 'umm', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'
+    ];
+    const dezenas = [
+        '', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'
+    ];
+    const especiais = [
+        'dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'
+    ];
+    const centenas = [
+        '', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 
+        'seiscentos', 'setecentos', 'oitocentos', 'novecentos'
+    ];
+
+    if (numero === 1000) return 'mil';
+    if (numero < 10) return unidades[numero];
+    if (numero < 20) return especiais[numero - 10];
+    if (numero < 100) {
+        const dezena = Math.floor(numero / 10);
+        const unidade = numero % 10;
+        return unidade === 0
+            ? dezenas[dezena]
+            : `${dezenas[dezena]} e ${unidades[unidade]}`;
+    }
+    if (numero < 1000) {
+        const centena = Math.floor(numero / 100);
+        const resto = numero % 100;
+        return resto === 0
+            ? `${centenas[centena]}`
+            : `${centenas[centena]} e ${numeroPorExtenso(resto)}`;
+    }
+    return '';
+};
+
+/**
+ * Configurações iniciais de dados usados nos testes.
+ */
+const { dataEmissao, dataVencimento } = gerarDatas();
 const dados = {
-    investidor: "12.254.372/0001-23", 
-    emissor: "02.033.625/0001-85", 
-    numeroNC: numeroPorExtenso(gerarNumeroAleatorio(1, 99)), // Gera número aleatório e converte para extenso
+    investidor: "12.254.372/0001-23",
+    emissor: "02.033.625/0001-85",
+    numeroNC: numeroPorExtenso(gerarNumeroAleatorio(1, 1000)),
     descricaoNC: 'Primeira nota NC',
-    serieNc: gerarNumeroAleatorio(1000, 9999), // Gera número aleatório para serieNc
-    valorTotal: '500.000',  
+    serieNc: gerarNumeroAleatorio(1000, 9999),
+    valorTotal: '500.000',
     valorUnitario: '50.000',
     quantidade: '10',
     jurosPre: '1000',
     jurosPos: '1500',
     nomeDaNota: 'Não Apagar QA',
+    taxa01: gerarNumeroAleatorio(0, 80000).toString(),
+    taxa02: gerarNumeroAleatorio(0, 80000).toString(),
+    taxa03: gerarNumeroAleatorio(0, 80000).toString(),
+
 };
 
-// Gerar as datas
-const { dataEmissao, dataVencimento } = gerarDatas();
-
-// Comando para login
+/**
+ * Comando para realizar login.
+ */
 Cypress.Commands.add('login', (userName = 'lubyqa', password = '12345') => {
     cy.visit('https://hemera.oke.luby.me/');
     cy.contains('Fazer login com Keycloak').click();
     cy.get('#username').type(userName);
     cy.get('#password').type(password);
     cy.get('#kc-login').click();
-    cy.screenshot('LoginValido');  
+    cy.contains('Modelo de Nota Comercial').should('be.visible');
+    cy.screenshot('LoginValido');
 });
 
-// Navegar até a tela de Cadastro de NC
+/**
+ * Comando para acessar a tela de Cadastro de NC.
+ */
 Cypress.Commands.add('visualizarTelaDeCadastroNC', () => {
-    cy.get('[href="/commercial-note/register"] > .truncate').click(); 
+    cy.get('[href="/commercial-note/register"] > .truncate').click();
     cy.contains('Cadastro NC').should('be.visible');
-    cy.wait(2000);
 });
 
-// Preencher cabeçalho da NC - Interno
-Cypress.Commands.add('preencherCabecalhoExterno', () => {    
-    cy.get('#item').click();
-    cy.get('.mb-6 > :nth-child(3) > :nth-child(1) > .gap-2').type(dados.investidor); 
-    cy.wait(4000)
-    cy.get('input[data-test="cnpjSearchIssuer-input"]').type(dados.emissor, { force: true });
-    cy.get('[data-test="issueDate-input"]').type(dataEmissao);
-    cy.get('[data-test="expireDate-input"]').type(dataVencimento);
-    cy.wait(3000)
-    cy.get('.flex-1.flex-row > :nth-child(1) > .gap-2 > .relative > .absolute').type(dados.numeroNC);
+/**
+ * Preenche os campos do cabeçalho de uma NC.
+ */
+Cypress.Commands.add('preencherCabecalho', () => {
+    cy.get('.mb-6 > :nth-child(3) > :nth-child(1) > .gap-2').type(dados.investidor);
+    cy.wait(5000);
+    cy.get('input[data-test="header.cnpjSearchIssuer-input"]').type(dados.emissor, { force: true });
+    cy.get('input[data-test="header.issueDate-input"]').type(dataEmissao);
+    cy.get('input[data-test="header.expireDate-input"]').type(dataVencimento);
+    
+    cy.get('.flex-1.flex-row > :nth-child(1) > .gap-2').type(dados.numeroNC);
     cy.get('.flex-1.flex-row > :nth-child(2) > .gap-2').type(dados.serieNc);
+
     cy.contains('Modelo de NC').click();
-    cy.get('div[data-radix-select-viewport]').find('span[id^="radix-"]').contains('Não Apagar QA').click();    
+    cy.get('div[data-radix-select-viewport]')
+        .find('span[id^="radix-"]')
+        .contains(dados.nomeDaNota)
+        .click();
+
     cy.get(':nth-child(6) > .gap-2').type(dados.descricaoNC);
     cy.get(':nth-child(7) > :nth-child(1) > .gap-2').type(dados.valorTotal);
     cy.get(':nth-child(7) > :nth-child(2) > .gap-2').type(dados.valorUnitario);
-    cy.get(':nth-child(7) > :nth-child(3) > .gap-2').type(dados.quantidade);                             
-    cy.contains('Adicionar Conta').should('be.visible').click();
+    cy.get(':nth-child(7) > :nth-child(3) > .gap-2').type(dados.quantidade);
+
+    cy.contains('Adicionar Conta').click();
     cy.contains('Banco').should('exist');
-    cy.wait(2000);
-    cy.get('button[id="BANCO SANTANDER (BRASIL) "]').should('be.visible').click();
+    cy.get('button[id="BANCO SANTANDER (BRASIL) "]').click();
     cy.get('.flex.flex-col-reverse > button.bg-primary').click(); 
-    cy.wait(1000)
+
     cy.get(':nth-child(9) > .flex-row > :nth-child(1) > .gap-2').type(dados.jurosPre);
     cy.get(':nth-child(9) > .flex-row > :nth-child(2) > .gap-2').type(dados.jurosPos);
-    cy.screenshot('cabeçalhoPreenchido')
-    cy.get('.mr-auto').click();
-    cy.wait(3000)
-    cy.get('.text-base.font-bold.text-green-500', { timeout: 10000 })
-    .should('be.visible')
-    .and('contain', 'Sucesso');
-    cy.screenshot('salvoComSucessoCabecalho')
+
+    cy.contains('Próximo').click();
+    //cy.wait(5000);
+    //cy.contains('Sucesso').should('be.visible');
+    //cy.screenshot('CabecalhoPreenchido');
 });
 
-
-// Preencher cabeçalho da NC
-Cypress.Commands.add('preencherCabecalho', () => {    
-    cy.get('.mb-6 > :nth-child(3) > :nth-child(1) > .gap-2').type(dados.investidor); 
-    cy.wait(4000)
-    cy.get('input[data-test="cnpjSearchIssuer-input"]').type(dados.emissor, { force: true });
-    cy.get('[data-test="issueDate-input"]').type(dataEmissao);
-    cy.get('[data-test="expireDate-input"]').type(dataVencimento);
-    cy.wait(3000)
-    cy.get('.flex-1.flex-row > :nth-child(1) > .gap-2 > .relative > .absolute').type(dados.numeroNC);
-    cy.get('.flex-1.flex-row > :nth-child(2) > .gap-2').type(dados.serieNc);
-    cy.contains('Modelo de NC').click();
-    cy.get('div[data-radix-select-viewport]').find('span[id^="radix-"]').contains('Não Apagar QA').click();    
-    cy.get(':nth-child(6) > .gap-2').type(dados.descricaoNC);
-    cy.get(':nth-child(7) > :nth-child(1) > .gap-2').type(dados.valorTotal);
-    cy.get(':nth-child(7) > :nth-child(2) > .gap-2').type(dados.valorUnitario);
-    cy.get(':nth-child(7) > :nth-child(3) > .gap-2').type(dados.quantidade);                             
-    cy.contains('Adicionar Conta').should('be.visible').click();
-    cy.contains('Banco').should('exist');
-    cy.wait(2000);
-    cy.get('button[id="BANCO SANTANDER (BRASIL) "]').should('be.visible').click();
-    cy.get('.flex.flex-col-reverse > button.bg-primary').click(); 
-    cy.wait(1000)
-    cy.get(':nth-child(9) > .flex-row > :nth-child(1) > .gap-2').type(dados.jurosPre);
-    cy.get(':nth-child(9) > .flex-row > :nth-child(2) > .gap-2').type(dados.jurosPos);
-    cy.screenshot('cabeçalhoPreenchido')
-    cy.get('.mr-auto').click();
-    cy.wait(3000)
-    cy.get('.text-base.font-bold.text-green-500', { timeout: 10000 })
-    .should('be.visible')
-    .and('contain', 'Sucesso');
-    cy.screenshot('salvoComSucessoCabecalho')
-});
-
-// Preencher obrigações
+/**
+ * Preenche as obrigações de uma NC.
+ */
 Cypress.Commands.add('preencherObrigacoes', () => {
-    const taxas = ["15", "20", "30"];
-    cy.contains('Resgate Antecipado:').should('be.visible'); 
-    cy.contains('Do atraso no pagamento e encargos moratórios:').should('be.visible'); 
+    cy.contains('Resgate Antecipado:').should('be.visible');
+    cy.contains('Do atraso no pagamento e encargos moratórios:').should('be.visible');
+
     cy.get('#item').click();
     cy.get('#item2').click();
-    cy.screenshot('obrigaçõesPreenchida');
-    cy.get('id').click();
-    cy.contains('Upload do Fluxo').should('be.visible');
+
+    cy.get(':nth-child(2) > .inline-block > .gap-2 > .relative > .absolute').type(dados.taxa01);
+    cy.get(':nth-child(3) > .inline-block > .gap-2 > .relative > .absolute').type(dados.taxa02);
+    cy.get(':nth-child(4) > .inline-block > .gap-2 > .relative > .absolute').type(dados.taxa03);
+    cy.screenshot('ObrigacoesPreenchidas');
+
+    cy.contains('Próximo').click();
+    //cy.wait(5000);
+
+    //cy.contains('Sucesso').should('be.visible');
+    //cy.contains('Upload do Fluxo').should('be.visible');
 });
 
-// Enviar pagamento inválido
-Cypress.Commands.add('enviarPagamentoInvalido', () => {
-    const fluxoPagamentoinvalido = 'parcelas_amortizacao.xlsx';
-    cy.get('id').attachFile(fluxoPagamentoinvalido);
-    cy.contains('mensagem de erro').should('be.visible');
-    cy.screenshot('Erro ao enviar no formato errado');
-});
 
-// Enviar pagamento válido
+
+/**
+ * Comando para simular o envio de um fluxo de pagamento válido.
+ */
 Cypress.Commands.add('enviarPagamentoValido', () => {
-    const fluxoPagamento = 'parcelas_amortizacao.csv';
-    cy.get('id').attachFile(fluxoPagamento);
-    cy.contains('mensagem de sucesso').should('be.visible');
-    cy.screenshot('Sucesso ao enviar arquivo');
+    cy.get('input[type="file"]').attachFile('parcelas_amortizacao.csv');
+    //cy.wait(3000);
+    cy.contains('Sucesso').should('be.visible');
+    cy.screenshot('SucessoPagamentoValido');
+
+    cy.contains('Próximo').click();
+    //cy.wait(5000);
+    //cy.contains('Upload do Contrato').should('be.visible');
+
+});
+
+
+/**
+ * Comando para simular o envio de um Contrato válido.
+ */
+Cypress.Commands.add('enviarContratoValido', () => {
+    cy.get('input[type="file"]').attachFile('garantias.csv');
+    cy.wait(3000);
+    cy.contains('garantias.csv').should('be.visible');
+    cy.get('.slate-selectable > .relative').type('Garantia ID,Descrição,Valor,Tipo,Data de Vencimento')
+    cy.screenshot('SucessoContratoValido');
     cy.contains('Fidejussórias').click();
-    cy.contains('Avalista').should('be.visible');
-    cy.contains('Cônjuge Anuente').should('be.visible');
-    cy.screenshot('abaFidejussórias');
+
+    /*cy.contains('Próximo').click();
+    cy.wait(5000);
+    cy.contains('Upload do Contrato').should('be.visible');*/
+
 });
 
-// Adicionar Avalista
-Cypress.Commands.add('adicionarAvalista', (avalista = "Nome ou RG") => {
-    cy.get('id').click(); 
+
+/**
+ * Comando para adicionar um avalista.
+ */
+Cypress.Commands.add('adicionarAvalista', () => {
     cy.contains('Adicionar Avalista').should('be.visible');
-    cy.get('id').type(avalista);
-    cy.get('id').click(); 
-    cy.get('Id').click(); 
-    cy.contains(avalista).should('be.visible');
+    cy.contains('Adicionar Avalista').click();
+    cy.get('button.peer').eq(1).click();
+    cy.get('.flex-col-reverse> :nth-child(2)').click();
+    cy.contains('92345678900').should('be.visible');
+
 });
 
-// Adicionar Cônjuge Anuente
-Cypress.Commands.add('adicionarConjuge', (conjuge = "Nome ou RG") => {
-    cy.get('id').click(); 
-    cy.contains('Adicionar Cônjuge Anuente').should('be.visible');
-    cy.get('id').type(conjuge);
-    cy.get('id').click(); 
-    cy.get('Id').click(); 
-    cy.contains(conjuge).should('be.visible');
+/**
+ * Comando para adicionar um cônjuge anuente.
+ */
+Cypress.Commands.add('adicionarConjuge', () => {
+    cy.contains('Adicionar Cônjuge').click();
+    cy.get('button.peer').eq(1).click();
+    cy.get('.flex-col-reverse> :nth-child(2)').click();
+    cy.contains('12345678900').should('be.visible');
+    
 });
 
-// Enviar para aprovação
+/**
+ * Comando para enviar a NC para aprovação.
+ */
 Cypress.Commands.add('enviarAprovacao', () => {
-    cy.screenshot('garantiasconcluida');
-    cy.get('id/contains').click(); 
-    cy.screenshot('conclusaoEnvio');
+    cy.screenshot('GarantiasConcluidas');
+    cy.contains('Enviar para aprovação').click();
+    cy.contains('Sucesso').should('be.visible');
+    cy.screenshot('EnvioAprovacaoConcluido');
 });

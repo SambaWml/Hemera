@@ -69,7 +69,7 @@ Cypress.Commands.add('filtrarPorNome', () => {
     cy.screenshot('filtroLimpo')
 });
 
-// Filtrar Por Status
+// Filtrar Por Status   // está dando problema
 /* 
 Cypress.Commands.add('filtrarPorStatus', () => {
     // cy.contains('span', 'Todos').click({ force: true });
