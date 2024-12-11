@@ -4,5 +4,8 @@
     "cypress-file-upload": "^5.0.8",
     "cypress-xpath": "^2.0.1",
     "qaseio": "^2.3.1"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0"
   }
 }

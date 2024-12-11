@@ -32,7 +32,7 @@ describe('Tela Modelos De NC', () => {
         Then a tabela deve exibir apenas os modelos cujo nome contém "Nome do Modelo"
         */
 
-        // Problema ao clicar no filtro de status.
+        // Problema ao clicar no filtro de status.  
         // cy.filtrarPorStatus(); 
 
         // Excluir um modelo da lista
