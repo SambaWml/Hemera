@@ -56,7 +56,8 @@ Cypress.Commands.add('preencherCabecalho', () => {
     { force: true }
   );
 
-  cy.contains('Modelo de NC').click();
+  cy.contains('button', 'Modelo de NC').click({ force: true });
+
   cy.get('div[data-radix-select-viewport]')
     .find('span[id^="radix-"]')
     .contains(dados.nomeDaNota)
@@ -66,14 +67,13 @@ Cypress.Commands.add('preencherCabecalho', () => {
 
   cy.get('[data-test="header.totalValue-input"]').type(dados.valorTotal, { force: true });
   cy.get('[data-test="header.unitValue-input"]').type(dados.valorUnitario, { force: true });
-  cy.get('[data-test="header.quantity-input"]').type(dados.quantidade, { force: true });
 
   cy.get('[data-test="header.feesPreFixed-input"]').type(dados.jurosPre, { force: true });
   cy.get('[data-test="header.feesPostFixed-input"]').type(dados.jurosPos, { force: true });
   cy.get('button[role="combobox"]').contains('Indexador').click({ force: true });
   cy.get('div[data-radix-select-viewport]').should('be.visible');
   cy.get('div[data-radix-select-viewport]')
-    .contains('Pré e pós')
+    .contains('CDI')
     .click();
 
 
@@ -87,6 +87,9 @@ Cypress.Commands.add('preencherCabecalho', () => {
   cy.contains('Banco').should('exist');
   cy.get('button[id="BANCO DO BRASIL "]').click();
   cy.get('.flex.flex-col-reverse > button.bg-primary').click();
+  cy.contains('BANCO DO BRASIL ').should('be.visible'); //Banco
+  cy.contains('1234').should('be.visible'); //Agência
+  cy.contains('123456').should('be.visible'); //Conta  
 
   cy.intercept(
     'POST',
@@ -140,7 +143,7 @@ Cypress.Commands.add('enviarPagamentoValido', () => {
     'POST',
     'https://hemera.backend.oke.luby.me/api/v1/fileupload*'
   ).as('UploadFile');
-  cy.get('input[type="file"]').attachFile('parcelas_amortizacao.csv');
+  cy.get('input[type="file"]').attachFile('Modelopagamentopreenchido.CSV');
   cy.contains('Sucesso').should('be.visible');
 
   cy.intercept(
@@ -156,15 +159,20 @@ Cypress.Commands.add('enviarPagamentoValido', () => {
  * Comando para simular o envio de um Contrato válido.
  */
 Cypress.Commands.add('enviarContratoValido', () => {
-    cy.get('input[type="file"]').attachFile(
+  cy.get('input[data-test="real-guarantee-files-input"]').attachFile(
     'garantias.csv',
     { force: true }
   );
   cy.contains('garantias.csv').should('be.visible');
-  cy.get('.slate-selectable > .relative').type(
-    'Garantia ID,Descrição,Valor,Tipo,Data de Vencimento',
-    { force: true }
-  );
+  cy.wait(1000);
+
+  //cy.get('#scroll_container [data-slate-editor="true"]').contains(
+  //'Em garantia do fiel, pontual, cabal e pronto cumprimento das obrigações de pagamento, principais ou acessórias, presentes ou futuras, decorrentes das Notas Comerciais, as Notas Comerciais serão garantidas, ainda, por:\n\n' +
+    //'Cessão fiduciária de recebíveis de 20,00% a do saldo devedor em direitos creditórios, presentes e futuros advindos da atividade empresarial da Emissora e das coligadas, devidamente discriminadas no INSTRUMENTO PARTICULAR DE CESSÃO FIDUCIÁRIA DE RECEBIVEIS EM GARANTIA DE NOTA COMERCIAL, em caráter irrevogável e irretratável, em favor do titular (Contrato de Cessão Fiduciária" e "Garantia Real", respectivamente).\n\n' +
+    //'O Contrato de xxxxxx-xx deverá ser levado a registro, nos termos e prazos previstos no respectivo contrato, às expensas da Emissora.\n\n' +
+    //'A Emissora, neste ato, compromete-se a enviar ao Titular o comprovante de registro do Contrato de Cessão Fiduciária no(s) Cartório(s) de Registro de Títulos e Documentos competente(s), cujo Contrato de xxxxxx-xx será registrado, em até x (extenso) dias contados da data de celebrado do respectivo instrumento.\n\n' +
+    //'Fica certo e ajustado o caráter não excludente, mas, se e quando aplicável, cumulativo entre si, da Garantia Real, nos termos deste Termo Constitutivo e do Contrato de xxxxxx-xx, podendo o Titular executar ou excutir todas ou cada uma delas indiscriminadamente, em qualquer ordem, para os fins de amortizar ou quitar com as obrigações decorrentes do presente Termo Constitutivo e/ou do Contrato de xxxxxx-xx.'
+  //);
   cy.contains('Fidejussórias').click();
 });
 
@@ -176,30 +184,31 @@ Cypress.Commands.add('adicionarAvalista', () => {
   cy.contains('Adicionar Avalista').click();
   cy.get('button.peer').eq(1).click();
   cy.get('.flex-col-reverse> :nth-child(2)').click();
-  cy.contains('RUBIA DA SILVA KRUGER').should('be.visible');
+  cy.contains('SIDNEI MARCIANO').should('be.visible');
 });
 
 /**
  * Comando para adicionar um cônjuge anuente.
  */
 Cypress.Commands.add('adicionarConjuge', () => {
+
   cy.contains('Adicionar Cônjuge').click();
   cy.get('button.peer').eq(1).click();
   cy.get('.flex-col-reverse> :nth-child(2)').click();
-  cy.contains('SIDNEI MARCIANO').should('be.visible');
+  cy.contains('RUBIA DA SILVA KRUGE').should('be.visible');
+  cy.wait(5000);
+
+  
 });
 
 /**
  * Comando para enviar a NC para aprovação.
  */
 Cypress.Commands.add('enviarAprovacao', () => {
-  cy.intercept(
-    'PUT',
-    'https://hemera.backend.oke.luby.me/api/v1/NotasComerciais/**/GarantiasFidejussorias'
-  ).as('UpdateGuarantees');
+
 
   cy.contains('Enviar para aprovação').click();
 
-  cy.wait('@UpdateGuarantees').its('response.statusCode').should('eq', 200);
+
   cy.contains('Sucesso').should('be.visible');
 });

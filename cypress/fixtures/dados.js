@@ -24,19 +24,19 @@ const gerarNumeroAleatorio = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
 // Gera os dados dinâmicos para os testes
-const { dataEmissao, dataVencimento } = gerarDatas();
+const { dataEmissao, dataVencimento } = gerarDatas(); //
 const dados = {
-  investidor: '19.187.295/0001-85',
-  emissor: '54.732.722/0001-60',
-  numeroNC: `3284 ${format(new Date(), 'd Haaa m s')}`,
+  investidor: '12254372000123',
+  emissor: '11581339000145',
+  numeroNC: `Wesley ${format(new Date(), 'd Haaa m s')}`,
   descricaoNC: 'Primeira nota NC',
   serieNc: `Dia ${format(new Date(), 'd')}`,
   valorTotal: '500.000',
   valorUnitario: '50.000',
-  quantidade: '10',
+  //quantidade: '10',//
   jurosPre: '1000',
   jurosPos: '1500',
-  nomeDaNota: 'Não Apagar QA',
+  nomeDaNota: 'Modelo Padrão - Rubia 1',
   taxa01: gerarNumeroAleatorio(0, 80000).toString(),
   taxa02: gerarNumeroAleatorio(0, 80000).toString(),
   taxa03: gerarNumeroAleatorio(0, 80000).toString(),

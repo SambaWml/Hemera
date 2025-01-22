@@ -1,7 +1,7 @@
 // Elementos
 const campoPesquisa = '.w-\\[360px\\] > .gap-2';
 const dropdownStatus = '.ml-auto > .justify-between';
-const botaoFiltrar = '.ml-auto > .inline-flex';
+const botaoFiltrar = '.justify-stretch > .bg-primary';
 const botaoAdicionar = '.justify-end.rounded-lg > .inline-flex';
 const tabelaModelos = '.flex-col.gap-4';
 
